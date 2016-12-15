@@ -24,9 +24,10 @@ class S3Bucket:
                                     timestamp=content['timestamp']['epochSecond'],
                                     limit_name=content['limitDefinition']['name'],
                                     limit_capacity=content['limitDefinition']['capacity'],
-                                    limit_duration=content['limitDefinition']['expiration']['seconds'],
+                                    limit_duration_s=content['limitDefinition']['expiration']['seconds'],
                                     percentage_used=content['percentageCapacityUsed'],
                                     is_reported=False)
+            event.update(event)
             throttling_data_objects.append(content)
         return throttling_data_objects
 
