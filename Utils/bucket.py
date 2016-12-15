@@ -15,12 +15,11 @@ class S3Bucket:
                                        aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'))
         self.bucket = self.connection.get_bucket(self.bucket_name)
 
-    def consume(self):
-        for key in self.bucket.list(prefix='organizations'):
-            content = self.get_oject(key=key)
-            print content
-        # TODO: get files in bucket and parse data
+    def consume(self, prefix):
         throttling_data_objects = list()
+        for key in self.bucket.list(prefix=prefix):
+            content = self.get_oject(key=key)
+            throttling_data_objects.append(content)
         return throttling_data_objects
 
     def get_oject(self, key):

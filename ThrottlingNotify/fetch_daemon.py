@@ -1,6 +1,6 @@
 import time
 
-from bucket_utils import S3Bucket
+from Utils.bucket import S3Bucket
 
 
 class FetchDaemon:
@@ -11,7 +11,7 @@ class FetchDaemon:
     def start(self):
         throttling_bucket = S3Bucket(self.bucket_name)
         while True:
-            throttling_data_objects = throttling_bucket.consume()
+            throttling_data_objects = throttling_bucket.consume(prefix='organizations')
             for throttling_data in throttling_data_objects:
                 _analyse_throttling(throttling_data)
             time.sleep(self.delay_ms)
