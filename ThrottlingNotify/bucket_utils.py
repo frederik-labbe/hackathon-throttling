@@ -15,7 +15,7 @@ class S3Bucket:
 
     def consume(self):
         # TODO: get all files
-        content = self.get_oject(key_name='organizations', file_name='1481831315169.json')
+        content = self.get_oject(folder_name='organizations', file_name='1481831315169.json')
         # TODO: get files in bucket and parse data
         throttling_data_objects = list()
         return throttling_data_objects
