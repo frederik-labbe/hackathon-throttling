@@ -1,7 +1,6 @@
-from sqlalchemy.ext.declarative import declarative_base
+from base import Base, db
 from sqlalchemy import Column, Integer, Text, Boolean
-
-Base = declarative_base()
+from sqlalchemy.sql import not_
 
 
 class ThrottlingEvent(Base):
@@ -15,3 +14,15 @@ class ThrottlingEvent(Base):
     limit_duration_s = Column(Integer, nullable=False)
     percentage_used = Column(Integer, nullable=False)
     is_reported = Column(Boolean, nullable=False)
+
+    def __init__(self):
+        self.db = db()
+
+    def update(self, throttling_event):
+        self.db.merge(throttling_event)
+        self.db.commit()
+
+    def get_all_unreported(self):
+        return (
+            self.db.filter(not_(ThrottlingEvent.is_reported))
+        ).all()
