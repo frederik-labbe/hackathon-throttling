@@ -1,12 +1,11 @@
-import os
-
 import json
-
-from ThrottlingNotify.throttling_event import ThrottlingEvent
+import os
 
 import boto
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+
+from Data.throttling_event import ThrottlingEvent
 
 
 class S3Bucket:
