@@ -2,6 +2,8 @@ import os
 
 import json
 
+from throttling_event import ThrottlingEvent
+
 import boto
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -19,6 +21,13 @@ class S3Bucket:
         throttling_data_objects = list()
         for key in self.bucket.list(prefix=prefix):
             content = self.get_oject(key=key)
+            event = ThrottlingEvent(organization_id=content['organizationId'],
+                                    timestamp=content['timestamp']['epochSecond'],
+                                    limit_name=content['limitDefinition']['name'],
+                                    limit_capacity=content['limitDefinition']['capacity'],
+                                    limit_duration=content['limitDefinition']['expiration']['seconds'],
+                                    percentage_used=content['percentageCapacityUsed'],
+                                    is_reported=False)
             throttling_data_objects.append(content)
         return throttling_data_objects
 
