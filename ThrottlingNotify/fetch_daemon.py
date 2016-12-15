@@ -11,10 +11,13 @@ class FetchDaemon:
     def start(self):
         throttling_bucket = S3Bucket(self.bucket_name)
         while True:
-            throttling_bucket.consume()
+            throttling_data_objects = throttling_bucket.consume()
+            for throttling_data in throttling_data_objects:
+                _analyse_throttling(throttling_data)
             time.sleep(self.delay_ms)
 
 
-def _analyse_bucket(bucket):
-    bucket
+def _analyse_throttling(throttling_data):
+    # TODO: analyse data and choose if and what notification
+    throttling_data
     print 'Analysed bucket: Notify level is Something, notify someone'

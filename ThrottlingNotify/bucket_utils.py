@@ -14,13 +14,16 @@ class S3Bucket:
         self.bucket = self.connection.get_bucket(self.bucket_name)
 
     def consume(self):
-        content = self.get_oject(key_name='', file_name='clementineparrot.gif')
-        print 'Consuming {}'.format(self.bucket_name)
+        # TODO: get all files
+        content = self.get_oject(key_name='organizations', file_name='1481831315169.json')
+        # TODO: get files in bucket and parse data
+        throttling_data_objects = list()
+        return throttling_data_objects
 
-    def get_oject(self, key_name, file_name):
+    def get_oject(self, folder_name, file_name):
         s3_key = Key(self.bucket)
-        s3_key.key = key_name
-        return s3_key.get_contents_to_file(file_name)
+        s3_key.key = '{}/{}'.format(folder_name, file_name)
+        return s3_key.get_contents_as_string()
 
     def delete_object(self, file_name):
         pass
