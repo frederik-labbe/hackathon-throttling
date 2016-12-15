@@ -2,7 +2,7 @@ import os
 
 import json
 
-from throttling_event import ThrottlingEvent
+from ThrottlingNotify.throttling_event import ThrottlingEvent
 
 import boto
 from boto.s3.connection import S3Connection
