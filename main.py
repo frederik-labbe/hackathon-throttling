@@ -10,7 +10,7 @@ from ThrottlingNotify.config import THROTTLING_EVENTS_FOLDER_NAME
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(asctime)s %(name)-50s %(levelname)-8s %(message)s')
 
-fetch_daemon = FetchDaemon(THROTTLING_EVENTS_BUCKET_NAME, THROTTLING_EVENTS_FOLDER_NAME)
+fetch_daemon = FetchDaemon(bucket_name=THROTTLING_EVENTS_BUCKET_NAME, folder_name=THROTTLING_EVENTS_FOLDER_NAME)
 analyse_daemon = AnalyseDaemon()
 
 while True:

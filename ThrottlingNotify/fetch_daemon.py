@@ -12,6 +12,6 @@ class FetchDaemon:
     def run(self):
         self.logger.info('Start fetching')
         throttling_bucket = S3Bucket(self.bucket_name)
-        new_events = throttling_bucket.consume(prefix='organizations')
+        new_events = throttling_bucket.consume(prefix=self.folder_name)
         self.logger.info('Finished fetching')
         return new_events
