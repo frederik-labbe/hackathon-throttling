@@ -2,20 +2,20 @@ THROTTLING_EVENTS_BUCKET_NAME = 'hackathon-throttling-events'
 THROTTLING_EVENTS_FOLDER_NAME = 'organizations'
 DAEMONS_RUN_FREQUENCY_S = 1
 
-TIME_TO_CHECK_MINUTES = 5
+TIME_TO_CHECK_MINUTES = 1
 
 NOTIFY_LEVELS = {
-    0: {
+    1: {
         'alert_title': 'Warning',
         'alert_message_fmt': 'Organization {} is a dick for busting limit {}',
-        'event_count_to_trigger': 3
+        'event_count_to_trigger': 2
     },
-    1: {
+    2: {
         'alert_title': 'Abuse level 1',
         'alert_message_fmt': 'Organization {} is a super dick for busting limit {}',
         'event_count_to_trigger': 4
     },
-    2: {
+    3: {
         'alert_title': 'Abuse level 2',
         'alert_message_fmt': 'Organization {} is not worth it for busting limit {}',
         'event_count_to_trigger': 5
