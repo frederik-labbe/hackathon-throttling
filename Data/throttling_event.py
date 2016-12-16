@@ -1,5 +1,5 @@
 from base import Base, db
-from sqlalchemy import Column, Integer, Text, Boolean
+from sqlalchemy import Column, Integer, Text, Boolean, text
 from sqlalchemy.sql import not_
 
 
@@ -15,7 +15,8 @@ class ThrottlingEvent(Base):
     percentage_used = Column(Integer, nullable=False)
     is_reported = Column(Boolean, nullable=False)
 
-    def __init__(self, organization_id, timestamp, limit_name, limit_capacity, limit_duration_s, percentage_used, is_reported):
+    def __init__(self, organization_id=None, timestamp=None, limit_name=None, limit_capacity=None, limit_duration_s=None, percentage_used=None,
+                 is_reported=None):
         self.db = db()
         self.organization_id = organization_id
         self.timestamp = timestamp
@@ -33,3 +34,11 @@ class ThrottlingEvent(Base):
         return (
             self.db.filter(not_(ThrottlingEvent.is_reported))
         ).all()
+
+    def get_event_count_since(self, minutes, organization_id, limit_name):
+        return (
+            self.db.query(ThrottlingEvent.organization_id)
+                .filter(ThrottlingEvent.organization_id == organization_id)
+                .filter(ThrottlingEvent.limit_name == limit_name)
+                .filter(ThrottlingEvent.timestamp >= text("strftime('%s', 'now') - 60*{}".format(minutes)))
+        ).count()
