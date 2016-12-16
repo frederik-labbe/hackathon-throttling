@@ -1,5 +1,6 @@
-THROTTLING_BUCKET_NAME = 'hackathon-throttling-events'
-FETCH_FREQUENCY_MS = 5000
+THROTTLING_EVENTS_BUCKET_NAME = 'hackathon-throttling-events'
+THROTTLING_EVENTS_FOLDER_NAME = 'organizations'
+DAEMONS_RUN_FREQUENCY_S = 5
 
 NOTIFY_LEVELS = {
     1: {

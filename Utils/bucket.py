@@ -17,8 +17,9 @@ class S3Bucket:
         self.bucket = self.connection.get_bucket(self.bucket_name)
 
     def consume(self, prefix):
-        throttling_data_objects = list()
+        new_events = False
         for key in self.bucket.list(prefix=prefix):
+            new_events = True
             content = self.get_oject(key=key)
             event = ThrottlingEvent(organization_id=content['organizationId'],
                                     timestamp=content['timestamp']['epochSecond'],
@@ -28,13 +29,15 @@ class S3Bucket:
                                     percentage_used=content['percentageCapacityUsed'],
                                     is_reported=False)
             event.update(event)
-            throttling_data_objects.append(content)
-        return throttling_data_objects
+            self.delete_object(key)
+
+        return new_events
 
     def get_oject(self, key):
         s3_key = Key(self.bucket, key)
         content = s3_key.get_contents_as_string()
         return json.loads(content)
 
-    def delete_object(self, file_name):
-        pass
+    def delete_object(self, key):
+        s3_key = Key(self.bucket, key)
+        s3_key.delete()

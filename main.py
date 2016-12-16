@@ -1,6 +1,19 @@
-from ThrottlingNotify.fetch_daemon import FetchDaemon
-from ThrottlingNotify.config import FETCH_FREQUENCY_MS
-from ThrottlingNotify.config import THROTTLING_BUCKET_NAME
+import time
+import logging
+import sys
 
-daemon = FetchDaemon(THROTTLING_BUCKET_NAME, FETCH_FREQUENCY_MS)
-daemon.start()
+from ThrottlingNotify.fetch_daemon import FetchDaemon
+from ThrottlingNotify.analyse_daemon import AnalyseDaemon
+from ThrottlingNotify.config import DAEMONS_RUN_FREQUENCY_S
+from ThrottlingNotify.config import THROTTLING_EVENTS_BUCKET_NAME
+from ThrottlingNotify.config import THROTTLING_EVENTS_FOLDER_NAME
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(asctime)s %(name)-50s %(levelname)-8s %(message)s')
+
+fetch_daemon = FetchDaemon(THROTTLING_EVENTS_BUCKET_NAME, THROTTLING_EVENTS_FOLDER_NAME)
+analyse_daemon = AnalyseDaemon()
+
+while True:
+    fetch_daemon.run()
+    analyse_daemon.run()
+    time.sleep(DAEMONS_RUN_FREQUENCY_S)
