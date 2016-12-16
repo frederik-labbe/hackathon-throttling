@@ -15,6 +15,5 @@ analyse_daemon = AnalyseDaemon()
 
 while True:
     new_events = fetch_daemon.run()
-    if new_events:
-        analyse_daemon.run()
+    analyse_daemon.run(new_events)
     time.sleep(DAEMONS_RUN_FREQUENCY_S)

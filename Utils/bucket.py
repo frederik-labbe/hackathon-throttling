@@ -17,9 +17,8 @@ class S3Bucket:
         self.bucket = self.connection.get_bucket(self.bucket_name)
 
     def consume(self, prefix):
-        new_events = False
+        new_events = {}
         for key in self.bucket.list(prefix=prefix):
-            new_events = True
             content = self.get_oject(key=key)
             event = ThrottlingEvent(organization_id=content['organizationId'],
                                     timestamp=content['timestamp']['epochSecond'],
@@ -28,6 +27,7 @@ class S3Bucket:
                                     limit_duration_s=content['limitDefinition']['expiration']['seconds'],
                                     percentage_used=content['percentageCapacityUsed'],
                                     is_reported=False)
+            new_events[event.organization_id] = event.limit_name
             event.update(event)
             self.delete_object(key)
 
