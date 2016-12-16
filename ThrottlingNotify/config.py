@@ -20,3 +20,6 @@ NOTIFY_LEVELS = {
 SLACK_NOTIFIER_BOT_NAME = 'Cloud Throttling'
 SLACK_NOTIFIER_PROFILE_PICTURE = ':lightning:'
 SLACK_NOTIFIER_CHANNEL = 'throttling-alerts'
+
+EMAIL_CONFIG_FILE = 'config.cfg'
+EMAIL_OPS = 'emilefugulin@hotmail.com'

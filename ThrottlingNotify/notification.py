@@ -1,4 +1,5 @@
-from Utils.slack import SlackNotifier
+from Utils.slack_notifier import SlackNotifier
+from Utils.email_notifier import EmailNotifier
 import config
 
 
@@ -11,6 +12,10 @@ class Notification:
     def to_slack(self):
         slack_notify = SlackNotifier(config.SLACK_NOTIFIER_BOT_NAME, config.SLACK_NOTIFIER_PROFILE_PICTURE)
         slack_notify.send_alert_to_channel(config.SLACK_NOTIFIER_CHANNEL, self.alert_title, self.alert_message)
+
+    def to_email(self):
+        email_notify = EmailNotifier(config.EMAIL_CONFIG_FILE)
+        email_notify.send_email(config.EMAIL_OPS, self.alert_title, self.alert_message)
 
     def to_console(self):
         print '{}: {}'.format(self.alert_title, self.alert_message)
