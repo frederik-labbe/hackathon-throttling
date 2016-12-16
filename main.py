@@ -14,6 +14,7 @@ fetch_daemon = FetchDaemon(THROTTLING_EVENTS_BUCKET_NAME, THROTTLING_EVENTS_FOLD
 analyse_daemon = AnalyseDaemon()
 
 while True:
-    fetch_daemon.run()
-    analyse_daemon.run()
+    new_events = fetch_daemon.run()
+    if new_events:
+        analyse_daemon.run()
     time.sleep(DAEMONS_RUN_FREQUENCY_S)
