@@ -8,13 +8,17 @@ class ThrottlingAbuse(Base):
 
     organization_id = Column(Text, primary_key=True, nullable=False)
     limit_name = Column(Text, primary_key=True, nullable=False)
-    last_abuse_timestamp = Column(DateTime, nullable=False)
+    last_abuse_timestamp = Column(Integer, nullable=False)
 
-    def __init__(self):
+    def __init__(self, organization_id=None, limit_name=None, last_abuse_timestamp=None):
         self.db = db()
+        self.organization_id = organization_id
+        self.limit_name = limit_name
+        self.last_abuse_timestamp = last_abuse_timestamp
 
-    def update(self, throttling_abuse):
-        self.db.merge(throttling_abuse)
+    def update(self, last_abuse_timestamp):
+        self.last_abuse_timestamp = last_abuse_timestamp
+        self.db.merge(self)
         self.db.commit()
 
     def last_abuse_since(self, minutes, organization_id, limit_name):
