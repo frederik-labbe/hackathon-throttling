@@ -1,3 +1,4 @@
+import os
 from smtplib import SMTP
 from ConfigParser import ConfigParser
 from email.mime.multipart import MIMEMultipart
@@ -12,7 +13,7 @@ class EmailNotifier:
         self.server = config.get('smtp', 'server')
         self.port = config.get('smtp', 'port')
         self.username = config.get('smtp', 'username')
-        self.password = config.get('smtp', 'password')
+        self.password = os.environ.get('EMAIL_PASSWORD', '')
         self.sender = config.get('smtp', 'sender')
 
     def send_email(self, receiver, subject, text):
